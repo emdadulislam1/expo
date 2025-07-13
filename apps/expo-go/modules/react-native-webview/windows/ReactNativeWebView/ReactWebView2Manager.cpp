@@ -144,6 +144,7 @@ namespace winrt::ReactNativeWebView::implementation {
         commands.Append(L"injectJavaScript");
         commands.Append(L"requestFocus");
         commands.Append(L"clearCache");
+        commands.Append(L"clearCookies");
         commands.Append(L"postMessage");
         commands.Append(L"loadUrl");
         return commands.GetView();
@@ -185,6 +186,10 @@ namespace winrt::ReactNativeWebView::implementation {
         else if (commandId == L"clearCache") {
             // There is no way to clear the cache in WebView2 because it is shared with Edge.
             // The best we can do is clear the cookies, because we cannot access history or local storage.
+            auto cookieManager = webView.CoreWebView2().CookieManager();
+            cookieManager.DeleteAllCookies();
+        }
+        else if (commandId == L"clearCookies") {
             auto cookieManager = webView.CoreWebView2().CookieManager();
             cookieManager.DeleteAllCookies();
         }

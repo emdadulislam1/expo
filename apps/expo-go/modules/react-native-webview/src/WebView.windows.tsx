@@ -39,6 +39,7 @@ const Commands = codegenNativeCommands({
     'injectJavaScript',
     'requestFocus',
     'clearCache',
+    'clearCookies',
     'postMessage',
     'loadUrl',
   ],
@@ -142,6 +143,7 @@ const WebViewComponent = forwardRef<{}, WindowsWebViewProps>(
           Commands.injectJavaScript(webViewRef.current, data),
         requestFocus: () => Commands.requestFocus(webViewRef.current),
         clearCache: () => Commands.clearCache(webViewRef.current),
+        clearCookies: () => Commands.clearCookies(webViewRef.current),
         loadUrl: (url: string) => Commands.loadUrl(webViewRef.current, url),
       }),
       [setViewState, webViewRef]

@@ -1665,6 +1665,23 @@ didFinishNavigation:(WKNavigation *)navigation
   [self removeData:dataTypes];
 }
 
+- (void)clearCookies
+{
+  if (@available(iOS 11.0, *)) {
+    [_webView.configuration.websiteDataStore.httpCookieStore getAllCookies:^(NSArray<NSHTTPCookie *> *cookies) {
+      for (NSHTTPCookie *cookie in cookies) {
+        [_webView.configuration.websiteDataStore.httpCookieStore deleteCookie:cookie completionHandler:^{}];
+      }
+    }];
+  } else {
+    // Fallback for iOS versions < 11.0
+    NSArray<NSHTTPCookie *> *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    for (NSHTTPCookie *cookie in cookies) {
+      [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+    }
+  }
+}
+
 - (void)removeData:(NSSet *)dataTypes
 {
   if (_webView == nil) {
