@@ -38,4 +38,24 @@ export default {
       });
     };
   },
+
+  clearCookies(): AppThunk {
+    return async (dispatch: AppDispatch) => {
+      try {
+        // Clear all cookies and stored data
+        await LocalStorage.clearCookiesAsync();
+        
+        // Reset Apollo client store
+        ApolloClient.resetStore();
+
+        return dispatch({
+          type: 'clearCookies',
+          payload: null,
+        });
+      } catch (e) {
+        console.error('Something went wrong when clearing cookies:', e);
+        throw e;
+      }
+    };
+  },
 };

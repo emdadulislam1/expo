@@ -84,6 +84,20 @@ async function clearHistoryAsync(): Promise<void> {
   await AsyncStorage.removeItem(Keys.History);
 }
 
+async function clearCookiesAsync(): Promise<void> {
+  // Clear all AsyncStorage data related to the app
+  await AsyncStorage.multiRemove([Keys.Settings, Keys.History]);
+  
+  // Clear session data through Kernel
+  await Kernel.removeSessionAsync();
+  
+  // Clear any additional stored data
+  await AsyncStorage.removeItem('currentAccount');
+  await AsyncStorage.removeItem('userReviewInfo');
+  await AsyncStorage.removeItem('@@expo@@:onboarding');
+  await AsyncStorage.removeItem('@@expo@@:session');
+}
+
 async function removeSessionAsync(): Promise<void> {
   await Kernel.removeSessionAsync();
 }
@@ -117,6 +131,7 @@ addListenerWithNativeCallback('ExponentKernel.getHistoryUrlForExperienceId', asy
 
 export default {
   clearHistoryAsync,
+  clearCookiesAsync,
   getSessionAsync,
   getHistoryAsync,
   getSettingsAsync,

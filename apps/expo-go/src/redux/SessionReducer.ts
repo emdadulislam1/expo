@@ -15,13 +15,16 @@ type SessionActions =
       type: 'setSession';
       payload: SessionObject;
     }
-  | { type: 'signOut' };
+  | { type: 'signOut' }
+  | { type: 'clearCookies' };
 
 export default (state: SessionType = new SessionState(), action: SessionActions): SessionType => {
   switch (action.type) {
     case 'setSession':
       return new SessionState(action.payload);
     case 'signOut':
+      return new SessionState();
+    case 'clearCookies':
       return new SessionState();
     default:
       return state;
