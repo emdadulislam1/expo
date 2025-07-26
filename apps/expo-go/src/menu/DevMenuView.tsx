@@ -12,6 +12,8 @@ import * as DevMenu from './DevMenuModule';
 import { DevMenuOnboarding } from './DevMenuOnboarding';
 import { DevMenuServerInfo } from './DevMenuServerInfo';
 import { DevMenuTaskInfo } from './DevMenuTaskInfo';
+import SessionActions from '../redux/SessionActions';
+import { useDispatch } from '../redux/Hooks';
 
 type Props = {
   task: { manifestUrl: string; manifestString: string };
@@ -49,6 +51,7 @@ const MENU_ITEMS_ICON_MAPPINGS: {
 
 export function DevMenuView({ uuid, task }: Props) {
   const context = useContext(DevMenuBottomSheetContext);
+  const dispatch = useDispatch();
 
   const [enableDevMenuTools, setEnableDevMenuTools] = React.useState(false);
   const [devMenuItems, setDevMenuItems] = React.useState<{ [key: string]: any }>({});
@@ -131,6 +134,10 @@ export function DevMenuView({ uuid, task }: Props) {
     DevMenu.goToHomeAsync();
   }
 
+  function onClearCookies() {
+    dispatch(SessionActions.clearCookies());
+  }
+
   function onPressDevMenuButton(key: string) {
     DevMenu.selectItemWithKeyAsync(key);
   }
@@ -173,6 +180,13 @@ export function DevMenuView({ uuid, task }: Props) {
                   label="Go Home"
                   onPress={onGoToHome}
                   icon={<HomeFilledIcon size={iconSize.small} color={theme.icon.default} />}
+                />
+                <Divider />
+                <DevMenuItem
+                  buttonKey="clearCookies"
+                  label="Clear Cookies"
+                  onPress={onClearCookies}
+                  icon={<ThemedMaterialIcon name="cookie" />}
                 />
               </View>
             </View>
