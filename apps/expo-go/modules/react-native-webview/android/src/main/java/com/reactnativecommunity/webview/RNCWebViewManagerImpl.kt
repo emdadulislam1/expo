@@ -296,6 +296,7 @@ class RNCWebViewManagerImpl(private val newArch: Boolean = false) {
     val COMMAND_CLEAR_FORM_DATA = 1000
     val COMMAND_CLEAR_CACHE = 1001
     val COMMAND_CLEAR_HISTORY = 1002
+    val COMMAND_CLEAR_COOKIES = 1003
 
     fun getCommandsMap(): Map<String, Int>? {
       return MapBuilder.builder<String, Int>()
@@ -310,6 +311,7 @@ class RNCWebViewManagerImpl(private val newArch: Boolean = false) {
         .put("clearFormData", COMMAND_CLEAR_FORM_DATA)
         .put("clearCache", COMMAND_CLEAR_CACHE)
         .put("clearHistory", COMMAND_CLEAR_HISTORY)
+        .put("clearCookies", COMMAND_CLEAR_COOKIES)
         .build()
     }
 
@@ -352,6 +354,10 @@ class RNCWebViewManagerImpl(private val newArch: Boolean = false) {
           webView.clearCache(includeDiskFiles)
         }
         "clearHistory" -> webView.clearHistory()
+        "clearCookies" -> {
+          CookieManager.getInstance().removeAllCookies(null)
+          CookieManager.getInstance().flush()
+        }
       }
     }
 

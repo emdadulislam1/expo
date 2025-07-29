@@ -126,6 +126,8 @@ const WebViewComponent = forwardRef<{}, MacOSWebViewProps>(
           Commands.injectJavaScript(webViewRef.current, data),
         requestFocus: () =>
           webViewRef.current && Commands.requestFocus(webViewRef.current),
+        clearCookies: () =>
+          webViewRef.current && Commands.clearCookies(webViewRef.current),
       }),
       [setViewState, webViewRef]
     );
